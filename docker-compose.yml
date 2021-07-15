@@ -16,24 +16,26 @@ services:
         ports:
             - "33060:3306"
         networks:
-            - zptnet        
+            default:
+                ipv4_address: 172.25.0.10        
 
     api:
         container_name: zpt-php
         volumes: 
-            - ./api:/var/www/html
+            - ./api:/var/www/html:delegated
         build: 
             context: .
             dockerfile: ./docker/php/Dockerfile
         depends_on:
             - "db"
         networks:
-            - zptnet
+            default:
+                ipv4_address: 172.25.0.2
     
     webserver:
         container_name: zpt-ws
         volumes: 
-            - ./api:/var/www/html
+            - ./api:/var/www/html:delegated
         build: 
             context: .
             dockerfile: ./docker/nginx/Dockerfile
@@ -42,39 +44,13 @@ services:
         ports:
             - "8085:80"
         networks:
-            - zptnet
-    
-    admin:
-        container_name: zpt-admin
-        volumes: 
-            - ./admin:/admin-app
-        build: 
-            context: .
-            dockerfile: ./docker/node-admin/Dockerfile
-        ports: 
-            - "8989:8080"
-        depends_on: 
-            - "webserver"
-        networks:
-            - zptnet
-
-    site:
-        container_name: zpt-site
-        volumes: 
-            - ./site:/app
-        build: 
-            context: .
-            dockerfile: ./docker/node-site/Dockerfile
-        ports: 
-            - "8181:8080"
-        depends_on: 
-            - "admin"
-        networks:
-            - zptnet
+            default:
+                ipv4_address: 172.25.0.3
 
 networks:
-    zptnet:
-        driver: bridge
+    default:
+        external: true
+        name: zpt-network
     
 volumes:
     zptdb:
