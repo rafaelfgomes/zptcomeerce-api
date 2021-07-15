@@ -1,0 +1,80 @@
+version: '3.4'
+
+services: 
+    db:
+        image: mysql
+        container_name: zpt-db
+        command: --default-authentication-plugin=mysql_native_password
+        volumes:
+            - zptdb:/var/lib/mysql:delegated
+        restart: always
+        environment: 
+            MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+            MYSQL_DATABASE: "${MYSQL_DATABASE}"
+            MYSQL_USER: "${MYSQL_USER}"
+            MYSQL_PASSWORD: "${MYSQL_USERPASS}"
+        ports:
+            - "33060:3306"
+        networks:
+            - zptnet        
+
+    api:
+        container_name: zpt-php
+        volumes: 
+            - ./api:/var/www/html
+        build: 
+            context: .
+            dockerfile: ./docker/php/Dockerfile
+        depends_on:
+            - "db"
+        networks:
+            - zptnet
+    
+    webserver:
+        container_name: zpt-ws
+        volumes: 
+            - ./api:/var/www/html
+        build: 
+            context: .
+            dockerfile: ./docker/nginx/Dockerfile
+        depends_on:
+            - "api"
+        ports:
+            - "8085:80"
+        networks:
+            - zptnet
+    
+    admin:
+        container_name: zpt-admin
+        volumes: 
+            - ./admin:/admin-app
+        build: 
+            context: .
+            dockerfile: ./docker/node-admin/Dockerfile
+        ports: 
+            - "8989:8080"
+        depends_on: 
+            - "webserver"
+        networks:
+            - zptnet
+
+    site:
+        container_name: zpt-site
+        volumes: 
+            - ./site:/app
+        build: 
+            context: .
+            dockerfile: ./docker/node-site/Dockerfile
+        ports: 
+            - "8181:8080"
+        depends_on: 
+            - "admin"
+        networks:
+            - zptnet
+
+networks:
+    zptnet:
+        driver: bridge
+    
+volumes:
+    zptdb:
