@@ -11,7 +11,7 @@ mysqlUserPassword=userpass
 
 if [ ! -f .env ]; then
 
-  cp .env.sample .env
+  cp env.sample .env
 
 else
 
@@ -22,9 +22,9 @@ fi
 
 net=$(docker network ls | grep "$networkName")
 
-if [ -z "$net" ] then;
+if [ -z "$net" ]; then
 
-    docker network create --driver=bridge --subnet=172.25.0.0/16 --gateway=172.25.0.1 "$networkName"
+  docker network create --driver=bridge --subnet=172.25.0.0/16 --gateway=172.25.0.1 "$networkName"
 
 fi
 
