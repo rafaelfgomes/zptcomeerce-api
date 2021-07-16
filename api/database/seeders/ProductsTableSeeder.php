@@ -17,15 +17,15 @@ class ProductsTableSeeder extends Seeder
         $data = [
             [ 
                 'name' => 'Produto Teste',
-                'descrption' => 'Descrição produto teste',
-                'image_path' => 'images/noimage.png',
+                'description' => 'Descrição produto teste',
+                'image_path' => 'assets/noimage.png',
                 'price' => 0.01,
                 'quantity' => 10
             ],
             [ 
                 'name' => 'Produto Teste 2',
-                'descrption' => 'Descrição produto teste 2',
-                'image_path' => 'images/noimage.png',
+                'description' => 'Descrição produto teste 2',
+                'image_path' => 'assets/noimage.png',
                 'price' => 0.01,
                 'quantity' => 0
             ],

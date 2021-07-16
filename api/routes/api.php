@@ -16,11 +16,8 @@ use App\Http\Controllers\ProductController;
 
 Route::prefix('products')->group(function () {
     Route::get('', [ ProductController::class, 'all' ]);
+    Route::get('actives', [ ProductController::class, 'getActives' ]);
     Route::post('', [ ProductController::class, 'store' ]);
     Route::put('{product}', [ ProductController::class, 'update' ]);
     Route::delete('{product}', [ ProductController::class, 'delete' ]);
 });
-
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });

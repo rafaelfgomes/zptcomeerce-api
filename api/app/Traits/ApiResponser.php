@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 trait ApiResponser
 {
@@ -17,7 +18,7 @@ trait ApiResponser
      *
      *
      */
-    public function successResponse(array $data, int $code = Response::HTTP_OK): JsonResponse
+    public function successResponse(JsonResource $data, int $code = Response::HTTP_OK): JsonResponse
     {
         return new JsonResponse($data, $code, [
             'Content-Type',
