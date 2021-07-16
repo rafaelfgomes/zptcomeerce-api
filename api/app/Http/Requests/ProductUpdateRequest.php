@@ -24,11 +24,11 @@ class ProductUpdateRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'name' => [ 'required', 'string' ],
-            'description' => [ 'required', 'string' ],
-            'image' => [ 'required', 'image', 'mimes:jpg,png,jpeg,gif,svg' ],
-            'price' => [ 'required', 'numeric', 'gt:0.0' ],
-            'quantity' => [ 'required', 'integer', 'gt:-1' ]
+            'name' => [ 'nullable', 'string' ],
+            'description' => [ 'nullable', 'string' ],
+            'image' => [ 'nullable', 'image', 'mimes:jpg,png,jpeg,gif,svg' ],
+            'price' => [ 'nullable', 'numeric', 'gt:0' ],
+            'quantity' => [ 'nullable', 'integer', 'gt:-1' ]
         ];
 
         return $rules;
@@ -47,14 +47,6 @@ class ProductUpdateRequest extends FormRequest
 
     public function messages()
     {
-        $required = [
-            'name.required' => 'Campo :attribute é obrigatório',
-            'description.required' => 'Campo :attribute é obrigatório',
-            'image.required' => 'Campo :attribute é obrigatório',
-            'price.required' => 'Campo :attribute é obrigatório',
-            'quantity.required' => 'Campo :attribute é obrigatório'
-        ];
-
         $string = [
             'name.string' => 'Campo :attribute não é texto',
             'description.string' => 'Campo :attribute não é texto',
@@ -71,9 +63,9 @@ class ProductUpdateRequest extends FormRequest
 
         $greaterThan = [
             'quantity.gt' => 'Campo :attribute deve ser maior que :gt',
-            'price.gt' => 'Campo :attribute deve ser maior que :gt'
+            'price.gt' => 'Campo :attribute deve ser maior que 0'
         ];
 
-        return array_merge($required, $string, $numeric, $integer, $greaterThan);
+        return array_merge($string, $numeric, $integer, $greaterThan);
     }
 }
