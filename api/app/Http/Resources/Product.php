@@ -22,7 +22,7 @@ class Product extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'image' => env('APP_URL') . '/' . $this->image_path,
-            'price' => 'R$ ' . number_format($this->price, 2, ',', '.'),
+            'price' => number_format($this->price, 2, ',', '.'),
             'quantity' => $this->quantity,
             'active' => (empty($this->deleted_at)) ? true : false
         ];
