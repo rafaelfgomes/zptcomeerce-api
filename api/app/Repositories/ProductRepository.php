@@ -25,13 +25,9 @@ class ProductRepository
     public function store(array $data): Product
     {
         try {
-            //$imagePath = Storage::putFile('public/images', $data['image']);
-            $fileName = Str::random(32) . '.' . $data['image']->getClientOriginalExtension();
+            $data['image_path'] = $this->saveImage($data);
 
-            $imagePath = $data['image']->move('images', $fileName)->getPathName();
             unset($data['image']);
-
-            $data['image_path'] = $imagePath;
 
             $productCreated = Product::create($data);
         } catch (\Exception $e) {
@@ -43,6 +39,16 @@ class ProductRepository
 
     public function update(array $data, Product $product): Product
     {
+        if (array_key_exists('image', $data)) {
+            unlink(public_path() . '/' . $product->image_path);
+            $data['image_path'] = $this->saveImage($data);
+            unset($data['image']);
+        }
+
+        $data['price'] = doubleval(str_replace(',', '.', $data['price']));
+        $data['quantity'] = intval($data['quantity']);
+        $data['deleted_at'] = (array_key_exists('active', $data)) ? $product->restore() : $product->delete();
+
         $productUpdated = tap($product)->update($data);
 
         return $productUpdated;
@@ -53,5 +59,12 @@ class ProductRepository
         $productInactive = tap($product)->delete();
 
         return $productInactive;
+    }
+
+    private function saveImage(array $data): string
+    {
+        $fileName = Str::random(32) . '.' . $data['image']->getClientOriginalExtension();
+
+        return $data['image']->move('images', $fileName)->getPathName();
     }
 }

@@ -27,8 +27,9 @@ class ProductUpdateRequest extends FormRequest
             'name' => [ 'nullable', 'string' ],
             'description' => [ 'nullable', 'string' ],
             'image' => [ 'nullable', 'image', 'mimes:jpg,png,jpeg,gif,svg' ],
-            'price' => [ 'nullable', 'numeric', 'gt:0' ],
-            'quantity' => [ 'nullable', 'integer', 'gt:-1' ]
+            'price' => [ 'nullable', 'string' ],
+            'quantity' => [ 'nullable', 'integer', 'gt:-1' ],
+            'active' => [ 'nullable' ]
         ];
 
         return $rules;
@@ -50,11 +51,8 @@ class ProductUpdateRequest extends FormRequest
         $string = [
             'name.string' => 'Campo :attribute não é texto',
             'description.string' => 'Campo :attribute não é texto',
+            'price.string' => 'Campo :attribute não é texto',
             'image.string' => 'Campo :attribute não é texto'
-        ];
-
-        $numeric = [
-            'price.numeric' => 'Campo :attribute é numérico'
         ];
 
         $integer = [
@@ -66,6 +64,6 @@ class ProductUpdateRequest extends FormRequest
             'price.gt' => 'Campo :attribute deve ser maior que 0'
         ];
 
-        return array_merge($string, $numeric, $integer, $greaterThan);
+        return array_merge($string, $integer, $greaterThan);
     }
 }
