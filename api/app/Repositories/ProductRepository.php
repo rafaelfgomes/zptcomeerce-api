@@ -40,7 +40,9 @@ class ProductRepository
     public function update(array $data, Product $product): Product
     {
         if (array_key_exists('image', $data)) {
-            unlink(public_path() . '/' . $product->image_path);
+            if (!str_contains($data['image'], 'noimage')) {
+                unlink(public_path() . '/' . $product->image_path);
+            }
             $data['image_path'] = $this->saveImage($data);
             unset($data['image']);
         }
