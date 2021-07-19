@@ -9,6 +9,7 @@ use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -31,6 +32,11 @@ class ProductController extends Controller
         return $this->successResponse($this->productService->getActives());
     }
 
+    public function getOne(Product $product): JsonResponse
+    {
+        return $this->successResponse($this->productService->getOne($product));
+    }
+
     public function store(ProductStoreRequest $request): JsonResponse
     {
         return $this->successResponse($this->productService->store($request->all()), Response::HTTP_CREATED);
@@ -39,6 +45,11 @@ class ProductController extends Controller
     public function update(ProductUpdateRequest $request, Product $product): JsonResponse
     {
         return $this->successResponse($this->productService->update($request->all(), $product));
+    }
+
+    public function checkout(Request $request, Product $product)
+    {
+        return $this->successResponse($this->productService->checkout($product, $request->quantity));
     }
 
     public function delete(Product $product): JsonResponse

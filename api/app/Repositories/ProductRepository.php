@@ -7,6 +7,8 @@ use App\Models\Product;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Collection;
 
+use function PHPUnit\Framework\returnSelf;
+
 class ProductRepository
 {
     /**
@@ -20,6 +22,11 @@ class ProductRepository
     public function getActives(): Collection
     {
         return Product::all();
+    }
+
+    public function getOne(Product $product): Product
+    {
+        return Product::find($product->id);
     }
 
     public function store(array $data): Product
@@ -58,6 +65,14 @@ class ProductRepository
         }
         
         return $productUpdated;
+    }
+
+    public function checkout(Product $product, int $quantity): Product
+    {
+        $newQuantity = $product->quantity - $quantity;
+        $productBuyed = tap($product)->update([ 'quantity' => $newQuantity ]);
+
+        return $productBuyed;
     }
 
     public function delete(Product $product): Product

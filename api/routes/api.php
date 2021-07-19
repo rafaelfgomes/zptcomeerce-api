@@ -16,8 +16,12 @@ use App\Http\Controllers\ProductController;
 
 Route::prefix('products')->group(function () {
     Route::get('', [ ProductController::class, 'all' ]);
-    Route::get('actives', [ ProductController::class, 'getActives' ]);
     Route::post('', [ ProductController::class, 'store' ]);
+    Route::get('actives', [ ProductController::class, 'getActives' ]);
+    Route::post('{product}/checkout', [ ProductController::class, 'checkout' ]);
+    Route::get('{product}', [ ProductController::class, 'getOne' ]);
     Route::put('{product}', [ ProductController::class, 'update' ]);
     Route::delete('{product}', [ ProductController::class, 'delete' ]);
 });
+
+
