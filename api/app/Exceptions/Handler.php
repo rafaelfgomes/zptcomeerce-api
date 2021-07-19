@@ -21,6 +21,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Database\Eloquent\RelationNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 class Handler extends ExceptionHandler
 {
@@ -60,13 +61,12 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $e)
     {
-        if ($e instanceof NotFoundHttpException) {
+        if ($e instanceof NotFoundHttpException ||
+            $e instanceof ModelNotFoundException ||
+            $e instanceof NotFoundResourceException
+        ) {
             return $this->errorResponse('Não encontrado', Response::HTTP_NOT_FOUND);
-        }
-
-        if ($e instanceof ModelNotFoundException) {
-            return $this->errorResponse('Não encontrado', Response::HTTP_NOT_FOUND);
-        }
+        }        
 
         if ($e instanceof AuthorizationException) {
             return $this->errorResponse($e->getMessage(), Response::HTTP_UNAUTHORIZED);
@@ -104,7 +104,6 @@ class Handler extends ExceptionHandler
             $e instanceof RelationNotFoundException ||
             $e instanceof TypeError
         ) {
-
             return $this->errorResponse($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 

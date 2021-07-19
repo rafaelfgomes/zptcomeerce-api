@@ -4,10 +4,12 @@ namespace App\Repositories;
 
 use Error;
 use App\Models\Product;
+use Exception;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Collection;
-
-use function PHPUnit\Framework\returnSelf;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 class ProductRepository
 {
@@ -80,6 +82,22 @@ class ProductRepository
         $productInactive = tap($product)->delete();
 
         return $productInactive;
+    }
+
+    public function search(string $productName): Collection
+    {
+        try {
+            $products = Product::where('name', 'LIKE', "%$productName%")->get();
+
+            if ($products->isEmpty()) {
+                throw new ResourceNotFoundException('Nenhum produto encontrado');
+            }
+
+        } catch (\Exception $e) {
+            throw new Error($e->getMessage());
+        }
+
+        return $products;
     }
 
     private function saveImage(array $data): string

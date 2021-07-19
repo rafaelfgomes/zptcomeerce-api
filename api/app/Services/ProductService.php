@@ -58,6 +58,13 @@ class ProductService
         return $productBuyed;
     }
 
+    public function search(string $productName): ProductCollection
+    {
+        $productsFound = new ProductCollection($this->productRepository->search($productName));
+
+        return $productsFound;
+    }
+
     public function delete(Product $product): ProductResource
     {
         $productDeleted = new ProductResource($this->productRepository->delete($product));

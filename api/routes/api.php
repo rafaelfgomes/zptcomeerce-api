@@ -18,6 +18,7 @@ Route::prefix('products')->group(function () {
     Route::get('', [ ProductController::class, 'all' ]);
     Route::post('', [ ProductController::class, 'store' ]);
     Route::get('actives', [ ProductController::class, 'getActives' ]);
+    Route::get('search/{productName}', [ ProductController::class, 'search' ]);
     Route::post('{product}/checkout', [ ProductController::class, 'checkout' ]);
     Route::get('{product}', [ ProductController::class, 'getOne' ]);
     Route::put('{product}', [ ProductController::class, 'update' ]);

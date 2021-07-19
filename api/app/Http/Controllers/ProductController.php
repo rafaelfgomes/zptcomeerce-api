@@ -47,9 +47,14 @@ class ProductController extends Controller
         return $this->successResponse($this->productService->update($request->all(), $product));
     }
 
-    public function checkout(Request $request, Product $product)
+    public function checkout(Request $request, Product $product): JsonResponse
     {
         return $this->successResponse($this->productService->checkout($product, $request->quantity));
+    }
+
+    public function search(string $productName): JsonResponse
+    {
+        return $this->successResponse($this->productService->search($productName));
     }
 
     public function delete(Product $product): JsonResponse
