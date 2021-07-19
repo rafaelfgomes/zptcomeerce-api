@@ -26,6 +26,7 @@ class ProductRepository
     {
         try {
             $data['image_path'] = $this->saveImage($data);
+            $data['price'] = doubleval(str_replace(',', '.', $data['price']));
 
             unset($data['image']);
 
@@ -39,20 +40,23 @@ class ProductRepository
 
     public function update(array $data, Product $product): Product
     {
-        if (array_key_exists('image', $data)) {
-            if (!str_contains($data['image'], 'noimage')) {
-                unlink(public_path() . '/' . $product->image_path);
+        try {
+            if (array_key_exists('image', $data)) {
+                if (!str_contains($data['image'], 'noimage')) {
+                    unlink(public_path() . '/' . $product->image_path);
+                }
+                $data['image_path'] = $this->saveImage($data);
+                unset($data['image']);
             }
-            $data['image_path'] = $this->saveImage($data);
-            unset($data['image']);
+    
+            $data['price'] = doubleval(str_replace(',', '.', $data['price']));
+            $data['deleted_at'] = (array_key_exists('active', $data)) ? $product->restore() : $product->delete();
+    
+            $productUpdated = tap($product)->update($data);
+        } catch (\Exception $e) {
+            throw new Error($e->getMessage());
         }
-
-        $data['price'] = doubleval(str_replace(',', '.', $data['price']));
-        $data['quantity'] = intval($data['quantity']);
-        $data['deleted_at'] = (array_key_exists('active', $data)) ? $product->restore() : $product->delete();
-
-        $productUpdated = tap($product)->update($data);
-
+        
         return $productUpdated;
     }
 

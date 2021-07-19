@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ValidPrice;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProductStoreRequest extends FormRequest
@@ -27,8 +28,8 @@ class ProductStoreRequest extends FormRequest
             'name' => [ 'required', 'string' ],
             'description' => [ 'required', 'string' ],
             'image' => [ 'required', 'image', 'mimes:jpg,png,jpeg,gif,svg' ],
-            'price' => [ 'required', 'numeric', 'gt:0.0' ],
-            'quantity' => [ 'required', 'integer', 'gt:-1' ]
+            'price' => [ 'required', 'string', new ValidPrice() ],
+            'quantity' => [ 'required', 'integer' ]
         ];
 
         return $rules;
@@ -58,22 +59,14 @@ class ProductStoreRequest extends FormRequest
         $string = [
             'name.string' => 'Campo :attribute não é texto',
             'description.string' => 'Campo :attribute não é texto',
-            'image.string' => 'Campo :attribute não é texto'
-        ];
-
-        $numeric = [
-            'price.numeric' => 'Campo :attribute é numérico'
+            'image.string' => 'Campo :attribute não é texto',
+            'price.string' => 'Campo :attribute não é texto'
         ];
 
         $integer = [
-            'quantity.integer' => 'Campo :attribute é numérico'
+            'quantity.integer' => 'Campo :attribute não é numérico'
         ];
 
-        $greaterThan = [
-            'quantity.gt' => 'Campo :attribute deve ser maior que :gt',
-            'price.gt' => 'Campo :attribute deve ser maior que :gt'
-        ];
-
-        return array_merge($required, $string, $numeric, $integer, $greaterThan);
+        return array_merge($required, $string, $integer);
     }
 }
