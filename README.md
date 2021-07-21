@@ -42,7 +42,7 @@ Após a execução do modo (manual ou automático), execute o seguinte comando:
 docker-compose up -d
 ```
 
-Se tudo ocorrer bem, seu peojeto já estará rodando e para acessá-lo basta colocar o ip do container (172.25.0.3) ou a url (0.0.0.0:8085) no seu navegador.
+Se tudo ocorrer bem, seu projeto já estará rodando e para acessá-lo basta colocar o ip do container (172.25.0.3) ou a url (0.0.0.0:8085) no seu navegador.
 
 ## Banco de dados
 
@@ -68,6 +68,6 @@ Na raiz deste projeto há um arquivo json de [Coleção do Postman](ZPT_Digital_
 
 ## 📝 Licença
 
-Esse projeto está sob licença MIT. Veja o arquivo [LICENÇA](LICENSE.md) para mais detalhes.
+Esse projeto está sob licença MIT. Veja o arquivo [LICENÇA](LICENSE) para mais detalhes.
 
-[⬆ Voltar ao topo](#zpt-commerce-api)<br>
+[⬆ Voltar ao topo](#zpt-commerce-api)
