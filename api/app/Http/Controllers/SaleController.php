@@ -7,6 +7,7 @@ use App\Traits\ApiResponser;
 use App\Services\SaleService;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\SaleStoreRequest;
+use Illuminate\Http\Response;
 
 class SaleController extends Controller
 {
@@ -31,6 +32,6 @@ class SaleController extends Controller
 
     public function store(SaleStoreRequest $request): JsonResponse
     {
-        return $this->successResponse($this->saleService->store($request->all()));
+        return $this->successResponse($this->saleService->store($request->all()), Response::HTTP_CREATED);
     }
 }
