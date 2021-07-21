@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\ProductController;
 
 /*
@@ -19,10 +20,13 @@ Route::prefix('products')->group(function () {
     Route::post('', [ ProductController::class, 'store' ]);
     Route::get('actives', [ ProductController::class, 'getActives' ]);
     Route::get('search/{productName}', [ ProductController::class, 'search' ]);
-    Route::post('{product}/checkout', [ ProductController::class, 'checkout' ]);
     Route::get('{product}', [ ProductController::class, 'getOne' ]);
     Route::put('{product}', [ ProductController::class, 'update' ]);
     Route::delete('{product}', [ ProductController::class, 'delete' ]);
 });
 
-
+Route::prefix('sales')->group(function () {
+    Route::get('', [ SaleController::class, 'all' ]);
+    Route::post('', [ SaleController::class, 'store' ]);
+    Route::get('{sale}', [ SaleController::class, 'getOne' ]);
+});

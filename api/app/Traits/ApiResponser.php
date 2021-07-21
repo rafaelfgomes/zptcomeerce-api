@@ -12,7 +12,7 @@ trait ApiResponser
      *
      * Success Response
      *
-     * @param array $data
+     * @param Illuminate\Http\Resources\Json\JsonResource $data
      * @param int $code
      * @return Illuminate\Http\JsonResponse
      *
@@ -52,14 +52,14 @@ trait ApiResponser
      *
      * Errors Response
      *
-     * @param string $message
+     * @param array $errors
      * @param int $code
      * @return Illuminate\Http\JsonResponse
      *
      */
-    public function errorsResponse(array $error, int $code): JsonResponse
+    public function errorsResponse(array $errors, int $code): JsonResponse
     {
-        return new JsonResponse($error, $code, [
+        return new JsonResponse($errors, $code, [
             'Content-Type',
             'application/json'
         ]);

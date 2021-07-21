@@ -19,15 +19,15 @@ class ProductsTableSeeder extends Seeder
                 'name' => 'Produto Teste',
                 'description' => 'Descrição produto teste',
                 'image_path' => 'assets/noimage.png',
-                'price' => 0.01,
-                'quantity' => 10
+                'price' => 50.00,
+                'quantity' => 100,
             ],
             [ 
                 'name' => 'Produto Teste 2',
                 'description' => 'Descrição produto teste 2',
                 'image_path' => 'assets/noimage.png',
-                'price' => 0.01,
-                'quantity' => 0
+                'price' => 150.00,
+                'quantity' => 100
             ],
         ];
 

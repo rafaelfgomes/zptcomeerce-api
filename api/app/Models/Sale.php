@@ -4,15 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\Relation;
 
-class Product extends Model
+class Sale extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
-    protected $table = 'products';
+    protected $table = 'sales';
 
     /**
      * The attributes that are mass assignable.
@@ -20,11 +20,11 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description', 'image_path', 'price', 'quantity'
+        'uuid', 'quantity', 'amount', 'product_id'
     ];
 
-    public function sales(): Relation
+    public function product(): BelongsTo
     {
-        return $this->hasMany(Sale::class);
+        return $this->belongsTo(Product::class);
     }
 }

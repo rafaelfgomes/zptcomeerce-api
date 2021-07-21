@@ -29,7 +29,7 @@ class ProductStoreRequest extends FormRequest
             'description' => [ 'required', 'string' ],
             'image' => [ 'required', 'image', 'mimes:jpg,png,jpeg,gif,svg' ],
             'price' => [ 'required', 'string', new ValidPrice() ],
-            'quantity' => [ 'required', 'integer' ]
+            'quantity' => [ 'nullable', 'integer' ]
         ];
 
         return $rules;
@@ -52,21 +52,23 @@ class ProductStoreRequest extends FormRequest
             'name.required' => 'Campo :attribute é obrigatório',
             'description.required' => 'Campo :attribute é obrigatório',
             'image.required' => 'Campo :attribute é obrigatório',
-            'price.required' => 'Campo :attribute é obrigatório',
-            'quantity.required' => 'Campo :attribute é obrigatório'
+            'price.required' => 'Campo :attribute é obrigatório'
         ];
 
         $string = [
             'name.string' => 'Campo :attribute não é texto',
             'description.string' => 'Campo :attribute não é texto',
-            'image.string' => 'Campo :attribute não é texto',
             'price.string' => 'Campo :attribute não é texto'
+        ];
+
+        $image = [
+            'image.mimes' => 'Campo :attribute não é do tipo jpg,png,jpeg,gif ou svg'
         ];
 
         $integer = [
             'quantity.integer' => 'Campo :attribute não é numérico'
         ];
 
-        return array_merge($required, $string, $integer);
+        return array_merge($required, $string, $image, $integer);
     }
 }

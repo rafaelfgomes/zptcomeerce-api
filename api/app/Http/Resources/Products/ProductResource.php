@@ -1,13 +1,10 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Products;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Storage;
 
-use function PHPUnit\Framework\isNull;
-
-class Product extends JsonResource
+class ProductResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,13 +15,9 @@ class Product extends JsonResource
     public function toArray($request)
     {
         $data = [
-            'id' => $this->id,
             'name' => $this->name,
-            'description' => $this->description,
-            'image' => env('APP_URL') . '/' . $this->image_path,
             'price' => number_format($this->price, 2, ',', '.'),
-            'quantity' => $this->quantity,
-            'active' => (empty($this->deleted_at)) ? true : false
+            'quantity' => $this->quantity
         ];
 
         return $data;

@@ -2,10 +2,10 @@
 
 namespace App\Services;
 
-use App\Repositories\ProductRepository;
-use App\Http\Resources\ProductCollection;
-use App\Http\Resources\Product as ProductResource;
 use App\Models\Product;
+use App\Repositories\ProductRepository;
+use App\Http\Resources\Products\ProductCollection;
+use App\Http\Resources\Products\ProductRelations;
 
 class ProductService
 {
@@ -30,32 +30,25 @@ class ProductService
         return $productsActive;
     }
 
-    public function getOne(Product $product): ProductResource
+    public function getOne(Product $product): ProductRelations
     {
-        $product = new ProductResource($this->productRepository->getOne($product));
+        $product = new ProductRelations($this->productRepository->getOne($product));
 
         return $product;
     }
 
-    public function store(array $data): ProductResource
+    public function store(array $data): ProductRelations
     {
-        $productCreated = new ProductResource($this->productRepository->store($data));
+        $productCreated = new ProductRelations($this->productRepository->store($data));
 
         return $productCreated;
     }
 
-    public function update(array $data, Product $product): ProductResource
+    public function update(array $data, Product $product): ProductRelations
     {
-        $productUpdated = new ProductResource($this->productRepository->update($data, $product));
+        $productUpdated = new ProductRelations($this->productRepository->update($data, $product));
 
         return $productUpdated;
-    }
-
-    public function checkout(Product $product, int $quantity): ProductResource
-    {
-        $productBuyed = new ProductResource($this->productRepository->checkout($product, $quantity));
-
-        return $productBuyed;
     }
 
     public function search(string $productName): ProductCollection
@@ -65,9 +58,9 @@ class ProductService
         return $productsFound;
     }
 
-    public function delete(Product $product): ProductResource
+    public function delete(Product $product): ProductRelations
     {
-        $productDeleted = new ProductResource($this->productRepository->delete($product));
+        $productDeleted = new ProductRelations($this->productRepository->delete($product));
 
         return $productDeleted;
     }

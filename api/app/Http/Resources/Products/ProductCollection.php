@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Products;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -14,11 +14,12 @@ class ProductCollection extends ResourceCollection
      */
     public function toArray($request)
     {
+        $data = [];
+
         foreach ($this->collection as $product) {
-            $data[] = new Product($product);
+            $data[] = new ProductRelations($product);
         }
 
         return $data;
-        //return parent::toArray($request);
     }
 }
